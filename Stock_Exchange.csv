@@ -1,7 +1,7 @@
 Exchange_ID,Country,Currency,Exchange_Name
-1,USA,Dollar,NYSE
-2,USA,Dollar,NASDAQ
-3,Japan,Yen,TSE
-4,United Kingdom,Pound,LSE
-5,China,Yuan,Hong Kong Stock Exchange
-6,China,Yuan,Shanghai Stock Exchange
+1,USA,USD,NYSE
+2,USA,USD,NASDAQ
+3,Japan,JPY,TSE
+4,United Kingdom,GBP,LSE
+5,China,CNY,Hong Kong Stock Exchange
+6,China,CNY,Shanghai Stock Exchange
