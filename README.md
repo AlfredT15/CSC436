@@ -10,4 +10,3 @@ possible queries
 -- union, ex. stockholder stocks at 2019 union stockholder stocks at 2020 (or something like that)  
 -- can use avg, count  
 -- not sure if we are using views since stockholders want to see all the data probably  
--- we can add a check constrant like for example currency has to be  
