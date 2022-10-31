@@ -1,30 +1,31 @@
 CREATE TABLE Stock_Exchange
 (
   Exchange_ID INT NOT NULL,
-  Country INT NOT NULL,
-  Currency INT NOT NULL,
-  Exchange_Name INT NOT NULL,
+  Country VARCHAR(30) NOT NULL,
+  Currency VARCHAR(10) NOT NULL,
+  Exchange_Name VARCHAR(30) NOT NULL,
   PRIMARY KEY (Exchange_ID)
 );
 
 CREATE TABLE Sector
 (
   Sector_ID INT NOT NULL,
-  Sector_Name INT NOT NULL,
+  Sector_Name VARCHAR(30) NOT NULL,
   PRIMARY KEY (Sector_ID)
 );
 
 CREATE TABLE Stock_Index
+
 (
   Index_ID INT NOT NULL,
-  Index_Name INT NOT NULL,
+  Index_Name VARCHAR(30) NOT NULL,
   PRIMARY KEY (Index_ID)
 );
 
 CREATE TABLE Share_Holders
 (
   SHid INT NOT NULL,
-  Name INT NOT NULL,
+  Name VARCHAR(30) NOT NULL,
   PRIMARY KEY (SHid)
 );
 
@@ -44,9 +45,9 @@ CREATE TABLE Investor
 
 CREATE TABLE Portfolio
 (
-  Date_Acquired INT NOT NULL,
-  Ticker INT NOT NULL,
-  Price_per_share INT NOT NULL,
+  Date_Acquired TIMESTAMP NOT NULL,
+  Ticker VARCHAR(30) NOT NULL,
+  Price_per_share FLOAT NOT NULL,
   Number_of_shares INT NOT NULL,
   SHid INT NOT NULL,
   PRIMARY KEY (SHid),
@@ -56,13 +57,13 @@ CREATE TABLE Portfolio
 CREATE TABLE Public_Stock
 (
   Stock_ID INT NOT NULL,
-  Ticker INT NOT NULL,
-  Open_Price INT NOT NULL,
-  Close_Price INT NOT NULL,
+  Ticker VARCHAR(10) NOT NULL,
+  Open_Price FLOAT NOT NULL,
+  Close_Price FLOAT NOT NULL,
   Days_Range INT NOT NULL,
   Shares_Outstanding INT NOT NULL,
   Volume INT NOT NULL,
-  Date INT NOT NULL,
+  Date TIMESTAMP NOT NULL,
   Exchange_ID INT NOT NULL,
   Sector_ID INT NOT NULL,
   SHid INT NOT NULL,
