@@ -1,92 +1,83 @@
 CREATE TABLE Stock_Exchange
 (
-  Exchange_ID INT NOT NULL,
-  Country VARCHAR(30) NOT NULL,
-  Currency VARCHAR(10) NOT NULL,
-  Exchange_Name VARCHAR(30) NOT NULL,
-  PRIMARY KEY (Exchange_ID)
+  Exchange_ID INT PRIMARY KEY,
+  Country VARCHAR(15) NOT NULL,
+  Currency CHAR(3) NOT NULL,
+  Exchange_Name VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE Sector
 (
-  Sector_ID INT NOT NULL,
-  Sector_Name VARCHAR(30) NOT NULL,
-  PRIMARY KEY (Sector_ID)
+  Sector_ID INT PRIMARY KEY,
+  Sector_Name VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE Stock_Index
-
 (
-  Index_ID INT NOT NULL,
-  Index_Name VARCHAR(30) NOT NULL,
-  PRIMARY KEY (Index_ID)
+  Index_ID INT PRIMARY KEY,
+  Index_Name VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE Share_Holders
 (
-  SHid INT NOT NULL,
-  Name VARCHAR(30) NOT NULL,
-  PRIMARY KEY (SHid)
+  SHid INT PRIMARY KEY,
+  Name VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE Corporation
 (
-  SHid INT NOT NULL,
-  PRIMARY KEY (SHid),
+  SHid INT PRIMARY KEY,
   FOREIGN KEY (SHid) REFERENCES Share_Holders(SHid)
 );
 
 CREATE TABLE Investor
 (
-  SHid INT NOT NULL,
-  PRIMARY KEY (SHid),
+  SHid INT PRIMARY KEY,
   FOREIGN KEY (SHid) REFERENCES Share_Holders(SHid)
 );
 
 CREATE TABLE Portfolio
 (
-  Date_Acquired TIMESTAMP NOT NULL,
-  Ticker VARCHAR(30) NOT NULL,
-  Price_per_share FLOAT NOT NULL,
-  Number_of_shares INT NOT NULL,
   SHid INT NOT NULL,
-  PRIMARY KEY (SHid),
+  Price_per_share NUMERIC(9,2) NOT NULL,
+  Number_of_shares NUMERIC(15) NOT NULL,
+  Date_Acquired DATE NOT NULL,
+  Ticker CHAR(5), 
   FOREIGN KEY (SHid) REFERENCES Share_Holders(SHid)
 );
 
 CREATE TABLE Public_Stock
 (
-  Stock_ID INT NOT NULL,
-  Ticker VARCHAR(10) NOT NULL,
-  Open_Price FLOAT NOT NULL,
-  Close_Price FLOAT NOT NULL,
-  Days_Range INT NOT NULL,
-  Shares_Outstanding INT NOT NULL,
-  Volume INT NOT NULL,
-  Date TIMESTAMP NOT NULL,
+  Ticker CHAR(5),
+  Stock_date DATE,
+  Open_Price NUMERIC(9,2) NOT NULL,
+  Close_Price NUMERIC(9,2) NOT NULL,
+  Volume NUMERIC(15) NOT NULL,
   Exchange_ID INT NOT NULL,
   Sector_ID INT NOT NULL,
-  SHid INT NOT NULL,
-  PRIMARY KEY (Stock_ID),
+  Corporation_ID INT NOT NULL,
+  PRIMARY KEY(Ticker, Stock_date),
   FOREIGN KEY (Exchange_ID) REFERENCES Stock_Exchange(Exchange_ID),
   FOREIGN KEY (Sector_ID) REFERENCES Sector(Sector_ID),
-  FOREIGN KEY (SHid) REFERENCES Corporation(SHid)
+  FOREIGN KEY (Corporation_ID) REFERENCES Corporation(SHid)
 );
 
 CREATE TABLE Tracked_by
 (
-  Index_ID INT NOT NULL,
-  Stock_ID INT NOT NULL,
-  PRIMARY KEY (Index_ID, Stock_ID),
+  Index_ID INT,
+  Ticker CHAR(5),
+  PRIMARY KEY(Index_ID, Ticker),
   FOREIGN KEY (Index_ID) REFERENCES Stock_Index(Index_ID),
-  FOREIGN KEY (Stock_ID) REFERENCES Public_Stock(Stock_ID)
+  FOREIGN KEY (Ticker) REFERENCES Public_Stock(Ticker)
 );
+
+SELECT * FROM Tracked_by;
 
 CREATE TABLE Owned_by
 (
-  SHid INT NOT NULL,
-  Stock_ID INT NOT NULL,
-  PRIMARY KEY (SHid, Stock_ID),
+  SHid INT,
+  Ticker CHAR(5),
+  PRIMARY KEY(SHid, Ticker),
   FOREIGN KEY (SHid) REFERENCES Share_Holders(SHid),
-  FOREIGN KEY (Stock_ID) REFERENCES Public_Stock(Stock_ID)
+  FOREIGN KEY (Ticker) REFERENCES Public_Stock(Ticker)
 );
