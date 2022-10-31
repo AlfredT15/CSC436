@@ -3,7 +3,7 @@ possible queries
 -- join with shareholders and public_stock, public_stock and sectors, public_stock and index, public_stock and exchange  
 -- can have public_stock indices be the ticker  
 -- simple select query like all public_stock in stock_index  
--- select every shareholder that has _blank_ public_stock  
+-- subqueies like select every shareholder that has _blank_ public_stock in _blank_ sectors  
 -- what do we do about delete and update?  
 -- string operations?  
 -- add an order by at some point  
