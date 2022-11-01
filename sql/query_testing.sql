@@ -7,7 +7,7 @@ DELETE FROM Portfolio
 WHERE SHid = 2 AND Ticker = 'AAPL';
 
 -- Get all stocks from an S&P index
-SELECT * from Public_Stock NATURAL LEFT JOIN Stock_Index
+SELECT DISTINCT Ticker, Index_Name from Public_Stock NATURAL LEFT JOIN Stock_Index
 WHERE Index_Name like 'S&P%';
 
 -- Joining each public stock entry with what index tracks that stock
