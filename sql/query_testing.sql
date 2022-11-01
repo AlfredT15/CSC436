@@ -2,13 +2,29 @@
 INSERT INTO Portfolio 
 VALUES (2, 141.32, 10, '2022-10-07', 'AAPL');
 
+SELECT * FROM Portfolio;
+
 -- Removing the stock from a share holder
 DELETE FROM Portfolio
 WHERE SHid = 2 AND Ticker = 'AAPL';
 
+SELECT * FROM Portfolio;
+
+-- Removing only a few stocks from a share holder
+UPDATE Portfolio
+SET Number_of_shares = 5
+WHERE SHid = 1 AND Ticker = 'ADBE' AND Date_Acquired = '2022-10-13';
+
+SELECT * FROM Portfolio;
+
 -- Get all stocks from an S&P index
 SELECT DISTINCT Ticker, Index_Name from Public_Stock NATURAL LEFT JOIN Stock_Index
 WHERE Index_Name like 'S&P%';
+
+-- See what corporations are investing in
+SELECT Name, Ticker, Number_of_shares
+FROM Corporation NATURAL LEFT JOIN Share_Holders NATURAL LEFT JOIN Portfolio
+WHERE Corporation.SHid = Share_Holders.SHid AND Ticker IS NOT NULL;
 
 -- Joining each public stock entry with what index tracks that stock
 SELECT *
