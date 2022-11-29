@@ -1,0 +1,60 @@
+"""
+11/29/2022 Programming Task 1 CSC 436
+"""
+
+# Adjacency Lists
+# F1={A->BC, B->CDE, AE->F} is storing Functional Dependencies in an adjacency list.
+# Example 1
+"""adjList = {
+    'A' : ['B','C', 'F'],
+    'B' : ['C', 'D', 'E'],
+    'C' : [],
+    'D' : [],
+    'E' : ['F'],
+    'F' : []
+}"""
+
+# Example 2 List of different size
+# F2=A->C, AC->D, E->AD, E->F
+"""adjList = {
+    'A' : ['C', 'D'],
+    'C' : ['D'],
+    'D' : [],
+    'E' : ['A', 'D', 'F'],
+    'F' : []
+}"""
+
+# Example 3 multiple candidate keys
+# F3={A->ZCH, Z->DG, G->AZ}
+adjList = {
+    'A': ['Z', 'C', 'H'],
+    'Z': ['D', 'G'],
+    'C': [],
+    'D': [],
+    'G': ['A', 'Z'],
+    'H': []
+}
+
+"""
+For every vertex the function performs a depth-first search to discover all the vertices 
+reachable from the given vertex. 
+If all other vertices are reachable from the starting point a candidate key must exist.
+"""
+
+
+def depthFirstSearch(visited, adjList, node):
+    if node not in visited:
+        visited.add(node)
+        for neighbour in adjList[node]:
+            depthFirstSearch(visited, adjList, neighbour)
+
+
+for startPoint in adjList:
+    # Creates a set object to include the visited nodes
+    visited = set()
+
+    depthFirstSearch(visited, adjList, startPoint)
+    # if all the members in the adjList are visited there is a candidate key.
+    if len(visited) == len(adjList):
+        print(startPoint)
+        # print(len(adjList))
