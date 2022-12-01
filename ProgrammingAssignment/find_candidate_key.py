@@ -4,7 +4,14 @@ import itertools
 import argparse
 
 
-def formatInput(inputRelation, inputFD):
+def formatInput(inputRelation: str, inputFD: str):
+    """Converts the string inputs into useable data structures for the algorithm
+
+    :param inputRelation: relation
+    :type inputRelation: str
+    :param inputFD: functional dependencies
+    :type inputFD: str
+    """
 
     # check empty inputs
     if inputRelation == '':
@@ -49,7 +56,18 @@ def formatInput(inputRelation, inputFD):
     return(relation, potentialkeys, FD)
 
 
-def findCD(relation, potentialkeys, FD):
+def findCD(relation: set, potentialkeys: list, FD: list):
+    """Finds candidate keys
+
+    :param relation: set of relations
+    :type relation: set
+    :param potentialkeys: list of all potential keys
+    :type potentialkeys: list
+    :param FD: list of functional dependencies
+    :type FD: list
+    :return: list of candidate keys
+    :rtype: list
+    """
     cd = []
     # go through evert potential key and get its closure
     while len(potentialkeys) > 0:
@@ -81,7 +99,16 @@ def findCD(relation, potentialkeys, FD):
                 break
     return cd
 
-def output(inputRelation, inputFD, candidate):
+def output(inputRelation: str, inputFD: str, candidate: list):
+    """Prints the output to the terminal
+
+    :param inputRelation: relation
+    :type inputRelation: str
+    :param inputFD: functional dependencies
+    :type inputFD: str
+    :param candidate: list of candidate keys
+    :type candidate: list
+    """
     print('Relation:', inputRelation)
     print('Functional Depencencies:')
     print(inputFD.replace('; ', '\n'))
@@ -96,14 +123,14 @@ def main():
     
     # load argument parser
     parser = argparse.ArgumentParser()
-    # arguments for data sources
+    # arguments for data
     parser.add_argument('-f', '--file', type=str, default=None, help='Name of file that contains relations and functional dependencies')
     parser.add_argument('-r','--relation', type=str, default='A,B,C,D,E,F', help='Relation')
     parser.add_argument('-d','--dependencies', type=str, default='A,B->C,D; A->B; B->C; C->E; B,D->A', help='Functional dependencies')
     # parse arguments from command line
     args = parser.parse_args()
     
-    # load edges filename into variable 
+    # load filename into variable 
     file_name = args.file
     if file_name:
         count = 0
@@ -120,13 +147,14 @@ def main():
         except:
             print("Can't read {}".format(file_name))
             exit()
-            
+        # compute candidate keys for each relation and functional dependency pair
         for ir, fd in zip(relation_list, func_dep_list):
             relation, potentialkeys, func_dep = formatInput(ir, fd)
             candidate = findCD(relation, potentialkeys, func_dep)
 
             output(ir,fd,candidate)
     else:
+        # compute candidate key for the single relation and functional dependency
         relation, potentialkeys, func_dep = formatInput(args.relation, args.dependencies)
         candidate = findCD(relation, potentialkeys, func_dep)
         output(args.relation,args.dependencies,candidate)
