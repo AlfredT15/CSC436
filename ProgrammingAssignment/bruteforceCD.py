@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import itertools
+import argparse
+
 
 def formatInput(inputRelation, inputFD):
 
@@ -79,30 +81,57 @@ def findCD(relation, potentialkeys, FD):
                 break
     return cd
 
+def output(inputRelation, inputFD, candidate):
+    print('Relation:', inputRelation)
+    print('Functional Depencencies:')
+    print(inputFD.replace('; ', '\n'))
+    print('Candidate Key(s):')
+    for cd in candidate:
+        for key in cd:
+            print(key, end="")
+        print(" ", end="")
+    print()
+
 def main():
-    # the input format it is expecting
-    inputRelation = 'A, B, C, D, E, G'
-    inputFD = 'A,B->C,D; A->B; B->C; C->E; B,D->A'
+    
+    # load argument parser
+    parser = argparse.ArgumentParser()
+    # arguments for data sources
+    parser.add_argument('-f', '--file', type=str, default=None, help='Name of file that contains relations and functional dependencies')
+    parser.add_argument('-r','--relation', type=str, default='A,B,C,D,E,F', help='Relation')
+    parser.add_argument('-d','--dependencies', type=str, default='A,B->C,D; A->B; B->C; C->E; B,D->A', help='Functional dependencies')
+    # parse arguments from command line
+    args = parser.parse_args()
+    
+    # load edges filename into variable 
+    file_name = args.file
+    if file_name:
+        count = 0
+        relation_list = list()
+        func_dep_list = list()
+        try:
+            with open(file_name, 'r') as file:
+                for line in file:
+                    if count % 2 == 0:
+                        relation_list.append(line.strip())
+                    if count % 2 == 1:
+                        func_dep_list.append(line.strip())
+                    count += 1
+        except:
+            print("Can't read {}".format(file_name))
+            exit()
+            
+        for ir, fd in zip(relation_list, func_dep_list):
+            relation, potentialkeys, func_dep = formatInput(ir, fd)
+            candidate = findCD(relation, potentialkeys, func_dep)
 
-    relation, potentialkeys, FD = formatInput(inputRelation, inputFD)
-    cd = findCD(relation, potentialkeys, FD)
+            output(ir,fd,candidate)
+    else:
+        relation, potentialkeys, func_dep = formatInput(args.relation, args.dependencies)
+        candidate = findCD(relation, potentialkeys, func_dep)
+        output(args.relation,args.dependencies,candidate)
 
-    print('Relation:', inputRelation)
-    print('Functional depencencies:')
-    print(inputFD.replace('; ', '\n'))
-    print('Candidate keys\n' + str(cd) + '\n')
-
-
-    inputRelation = 'A, B, C, D, E'
-    inputFD = 'A->B,C; C,D->E; B->D; E->A'
-
-    relation, potentialkeys, FD = formatInput(inputRelation, inputFD)
-    cd = findCD(relation, potentialkeys, FD)
-
-    print('Relation:', inputRelation)
-    print('Functional depencencies:')
-    print(inputFD.replace('; ', '\n'))
-    print('Candidate keys\n' + str(cd))
 
 if __name__ == "__main__":
+    
     main()
