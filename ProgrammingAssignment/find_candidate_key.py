@@ -85,11 +85,16 @@ def output(inputRelation, inputFD, candidate):
     print('Relation:', inputRelation)
     print('Functional Depencencies:')
     print(inputFD.replace('; ', '\n'))
-    print('Candidate Key(s):')
+    
+    cd_str = ''
     for cd in candidate:
+        cd_str += '('
         for key in cd:
-            print(key, end="")
-        print(" ", end="")
+            cd_str += str(key)+ ', '
+        cd_str = cd_str[:-2]
+        cd_str += ') '
+        
+    print(cd_str[:-1])
     print()
 
 def main():
