@@ -42,9 +42,24 @@ def formatInput(inputRelation, inputFD):
             exit()
 
         FD.append((set(left.split(',')), set(right.split(','))))
-    if FD == [({''}, {''})]:
-        print('Could not extract functional depencenies from input, got empty list, stopping.')
-        exit()
+
+    # check if the functional dependencies are part of relation
+    for left, right in FD:
+        for l in left:
+            if l == '':
+                print(f'Got an empty input in function depencency {left}->{right}, could be because of whitespace. Stopping.')
+                exit()
+            if l not in relation:
+                print(f'\'{l}\' from functional dependency {left}->{right} is not part of relation {relation}, could be because of whitespace. Stopping.')
+                exit()
+                
+        for r in right:
+            if r == '':
+                print(f'Got an empty input in function depencency {left}->{right}, could be because of whitespace. Stopping.')
+                exit()
+            if r not in relation:
+                print(f'\'{r}\' from functional dependency {left}->{right} is not part of relation {relation}, could be because of whitespace. Stopping.')
+                exit()
 
     return(relation, potentialkeys, FD)
 
