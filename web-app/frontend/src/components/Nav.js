@@ -26,6 +26,9 @@ function Nav() {
           <Link to="/dml" className="nav-item nav-link">
             DML Queries
           </Link>
+          <Link to="/dql" className="nav-item nav-link">
+            DQL Queries
+          </Link>
         </div>
       </div>
     </nav>

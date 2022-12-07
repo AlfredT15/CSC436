@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../config/db.js");
 
+// <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+// DDL Queries
+// <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+
 router.get("/ddl", async (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) throw err;
@@ -31,7 +35,6 @@ router.post("/insertTable", async (req, res) => {
     console.log(req.body);
     conn.query(qry, (err, data) => {
       if (err) throw err;
-      console.log("sent");
     });
   });
 });
@@ -44,7 +47,6 @@ router.post("/dropTable", async (req, res) => {
     console.log(req.body);
     conn.query(qry, (err, data) => {
       if (err) throw err;
-      console.log("sent");
     });
   });
 });
@@ -64,7 +66,6 @@ router.post("/alterTable", async (req, res) => {
     console.log(req.body);
     conn.query(qry, (err, data) => {
       if (err) throw err;
-      console.log("sent");
     });
   });
 });
@@ -77,7 +78,6 @@ router.post("/truncateTable", async (req, res) => {
     console.log(req.body);
     conn.query(qry, (err, data) => {
       if (err) throw err;
-      console.log("sent");
     });
   });
 });
@@ -95,7 +95,107 @@ router.post("/renameTable", async (req, res) => {
     console.log(req.body);
     conn.query(qry, (err, data) => {
       if (err) throw err;
-      console.log("sent");
+    });
+  });
+});
+
+// <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+// DML Queries
+// <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+
+router.post("/insertIntoTable", async (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+
+    var qry =
+      "INSERT INTO " +
+      req.body.tableName +
+      " VALUES ( " +
+      req.body.value +
+      " );";
+    if (req.body.columnName) {
+      qry =
+        "INSERT INTO " +
+        req.body.tableName +
+        "(" +
+        req.body.columnName +
+        ") VALUES ( " +
+        req.body.value +
+        " );";
+    }
+
+    console.log(req.body);
+    conn.query(qry, (err, data) => {
+      if (err) throw err;
+    });
+  });
+});
+
+router.post("/updateTable", async (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+
+    var qry = "UPDATE " + req.body.tableName + " SET " + req.body.value + ";";
+    if (req.body.condition) {
+      qry =
+        "UPDATE " +
+        req.body.tableName +
+        " SET " +
+        req.body.value +
+        " WHERE " +
+        req.body.condition +
+        ";";
+    }
+
+    console.log(req.body);
+    conn.query(qry, (err, data) => {
+      if (err) throw err;
+    });
+  });
+});
+
+router.post("/deleteTable", async (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+
+    var qry =
+      "DELETE FROM " +
+      req.body.tableName +
+      " WHERE " +
+      req.body.condition +
+      ";";
+    console.log(req.body);
+    conn.query(qry, (err, data) => {
+      if (err) throw err;
+    });
+  });
+});
+
+// <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+// DQL Queries
+// <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+
+router.post("/select", async (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+
+    var qry =
+      "SELECT " + req.body.columnName + " FROM " + req.body.tableName + ";";
+    if (req.body.condition) {
+      qry =
+        "SELECT " +
+        req.body.columnName +
+        " FROM " +
+        req.body.tableName +
+        " WHERE " +
+        req.body.condition +
+        ";";
+    }
+    console.log(req.body);
+    conn.query(qry, (err, data) => {
+      if (err) throw err;
+      console.log(JSON.stringify(data));
+      // res.send(JSON.stringify(data));
     });
   });
 });

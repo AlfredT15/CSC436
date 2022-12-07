@@ -4,6 +4,7 @@ import Nav from "./components/Nav";
 import Home from "./components/Home";
 import DDL from "./components/DDL";
 import DML from "./components/DML";
+import DQL from "./components/DQL";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" exact component={Home} />
           <Route path="/ddl" exact component={DDL} />
           <Route path="/dml" exact component={DML} />
+          <Route path="/dql" exact component={DQL} />
         </Switch>
       </div>
     </Router>
