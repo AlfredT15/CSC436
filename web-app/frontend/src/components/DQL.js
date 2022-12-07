@@ -31,6 +31,22 @@ function DQL() {
               placeholder="Condition"
               class="form-control"
             />
+            <p>GROUP BY:</p>
+            <input type="checkbox" name="groupBy" />
+            <input
+              type="text"
+              name="conditionGroupBy"
+              placeholder="Condition"
+              class="form-control"
+            />
+            <p>ORDER BY:</p>
+            <input type="checkbox" name="orderBy" />
+            <input
+              type="text"
+              name="conditionOrderBy"
+              placeholder="Condition"
+              class="form-control"
+            />
             <input type="submit" value="Send" class="btn btn-primary mb-2" />
           </div>
         </div>
@@ -78,6 +94,22 @@ function DQL() {
             <input
               type="text"
               name="condition"
+              placeholder="Condition"
+              class="form-control"
+            />
+            <p>GROUP BY:</p>
+            <input type="checkbox" name="groupBy" />
+            <input
+              type="text"
+              name="conditionGroupBy"
+              placeholder="Condition"
+              class="form-control"
+            />
+            <p>ORDER BY:</p>
+            <input type="checkbox" name="orderBy" />
+            <input
+              type="text"
+              name="conditionOrderBy"
               placeholder="Condition"
               class="form-control"
             />

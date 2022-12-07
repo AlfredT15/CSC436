@@ -3,10 +3,10 @@ const router = express.Router();
 const pool = require("../config/db.js");
 
 // <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
-// DDL Queries
+// Cool Queries
 // <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
-router.get("/ddl", async (req, res) => {
+router.get("/cq", async (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) throw err;
 
@@ -25,6 +25,10 @@ router.get("/ddl", async (req, res) => {
     }
   });
 });
+
+// <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+// DDL Queries
+// <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
 router.post("/insertTable", async (req, res) => {
   pool.getConnection((err, conn) => {
@@ -92,6 +96,51 @@ router.post("/renameTable", async (req, res) => {
       " TO " +
       req.body.newTableName +
       ";";
+    console.log(req.body);
+    conn.query(qry, (err, data) => {
+      if (err) throw err;
+    });
+  });
+});
+
+router.post("/createIndex", async (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+
+    const qry =
+      "CREATE INDEX " +
+      req.body.indexName +
+      " ON " +
+      req.body.tableInfo +
+      " );";
+    console.log(req.body);
+    conn.query(qry, (err, data) => {
+      if (err) throw err;
+    });
+  });
+});
+
+router.post("/createView", async (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+
+    var qry =
+      "CREATE VIEW " +
+      req.body.indexName +
+      " AS SELECT " +
+      req.body.columnName +
+      " FROM " +
+      req.body.tableName;
+
+    if (req.body.where) {
+      qry += " WHERE " + req.body.condition;
+    }
+    if (req.body.groupBy) {
+      qry += " GROUP BY " + req.body.conditionGroupBy;
+    }
+    if (req.body.orderBy) {
+      qry += " ORDER BY " + req.body.conditionOrderBy;
+    }
     console.log(req.body);
     conn.query(qry, (err, data) => {
       if (err) throw err;
@@ -179,17 +228,15 @@ router.post("/select", async (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) throw err;
 
-    var qry =
-      "SELECT " + req.body.columnName + " FROM " + req.body.tableName + ";";
+    var qry = "SELECT " + req.body.columnName + " FROM " + req.body.tableName;
     if (req.body.where) {
-      qry =
-        "SELECT " +
-        req.body.columnName +
-        " FROM " +
-        req.body.tableName +
-        " WHERE " +
-        req.body.condition +
-        ";";
+      qry += " WHERE " + req.body.condition;
+    }
+    if (req.body.groupBy) {
+      qry += " GROUP BY " + req.body.conditionGroupBy;
+    }
+    if (req.body.orderBy) {
+      qry += " ORDER BY " + req.body.conditionOrderBy;
     }
     console.log(req.body);
     conn.query(qry, (err, data) => {
@@ -224,6 +271,12 @@ router.post("/selectJoin", async (req, res) => {
 
     if (req.body.where) {
       qry += " WHERE " + req.body.condition;
+    }
+    if (req.body.groupBy) {
+      qry += " GROUP BY " + req.body.conditionGroupBy;
+    }
+    if (req.body.orderBy) {
+      qry += " ORDER BY " + req.body.conditionOrderBy;
     }
     console.log(req.body);
     conn.query(qry, (err, data) => {
