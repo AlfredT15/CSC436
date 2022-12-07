@@ -49,38 +49,55 @@ router.post("/dropTable", async (req, res) => {
   });
 });
 
-// router.get("/dml", async (req, res) => {
-//   const userTweet = req.body.tweetInput;
+router.post("/alterTable", async (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
 
-//   pool.getConnection((err, conn) => {
-//     if (err) throw err;
+    const qry =
+      "ALTER TABLE " +
+      req.body.tableName +
+      " " +
+      req.body.opType +
+      " " +
+      req.body.tableInfo +
+      ";";
+    console.log(req.body);
+    conn.query(qry, (err, data) => {
+      if (err) throw err;
+      console.log("sent");
+    });
+  });
+});
 
-//     const qry = `INSERT INTO Share_Holders VALUES(?,?)`;
-//     conn.query(qry, [20, "Alfred Timperley"], (err, results) => {
-//       conn.release();
-//       if (err) throw err;
-//       console.log("Value added to share holders");
-//     });
-//     res.redirect("/tweets");
-//     res.end();
-//   });
-// });
+router.post("/truncateTable", async (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
 
-// router.get("/ddl", async (req, res) => {
-//   const userTweet = req.body.tweetInput;
+    const qry = "TRUNCATE TABLE " + req.body.tableName + ";";
+    console.log(req.body);
+    conn.query(qry, (err, data) => {
+      if (err) throw err;
+      console.log("sent");
+    });
+  });
+});
 
-//   pool.getConnection((err, conn) => {
-//     if (err) throw err;
+router.post("/renameTable", async (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
 
-//     const qry = `CREATE TABLE ? (? ? ?,);`;
-//     conn.query(qry, [20, "Alfred Timperley"], (err, results) => {
-//       conn.release();
-//       if (err) throw err;
-//       console.log("Value added to share holders");
-//     });
-//     res.redirect("/tweets");
-//     res.end();
-//   });
-// });
+    const qry =
+      "RENAME TABLE " +
+      req.body.tableName +
+      " TO " +
+      req.body.newTableName +
+      ";";
+    console.log(req.body);
+    conn.query(qry, (err, data) => {
+      if (err) throw err;
+      console.log("sent");
+    });
+  });
+});
 
 module.exports = router;
