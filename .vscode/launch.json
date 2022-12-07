@@ -1,0 +1,34 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "cli input",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": [
+        "-r",
+        "A, B, C, D, E, G",
+        "-d",
+        "A,B->C,D; A->B; B->C; C->E; B,D->A"
+      ]
+    },
+    {
+      "name": "file input",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": [
+        "-f",
+        "/home/alfred/Code/School/CSC436/CSC436/ProgrammingAssignment/candidate_key_test_case.txt"
+      ]
+    }
+  ]
+}

@@ -1,3 +1,5 @@
+SELECT * FROM Share_Holders;
+
 -- A stock holder buying a new stock
 INSERT INTO Portfolio 
 VALUES (2, 141.32, 10, '2022-10-07', 'AAPL');
