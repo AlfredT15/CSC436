@@ -181,7 +181,7 @@ router.post("/select", async (req, res) => {
 
     var qry =
       "SELECT " + req.body.columnName + " FROM " + req.body.tableName + ";";
-    if (req.body.condition) {
+    if (req.body.where) {
       qry =
         "SELECT " +
         req.body.columnName +
@@ -194,6 +194,62 @@ router.post("/select", async (req, res) => {
     console.log(req.body);
     conn.query(qry, (err, data) => {
       if (err) throw err;
+      console.log(JSON.stringify(data));
+      // res.send(JSON.stringify(data));
+    });
+  });
+});
+
+router.post("/selectJoin", async (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+
+    var qry = "SELECT " + req.body.columnName + " FROM " + req.body.tableName;
+    if (req.body.joinType === "natural") {
+      qry += " NATURAL ";
+    }
+    if (req.body.joinOpType === "left") {
+      qry += " LEFT JOIN ";
+    }
+    if (req.body.joinOpType === "right") {
+      qry += " RIGHT JOIN ";
+    }
+    if (req.body.joinOpType === "regular") {
+      qry += " JOIN ";
+    }
+    qry += req.body.joinTable;
+    if (req.body.joinType === "none") {
+      qry += " ON " + req.body.joinOn;
+    }
+
+    if (req.body.where) {
+      qry += " WHERE " + req.body.condition;
+    }
+    console.log(req.body);
+    conn.query(qry, (err, data) => {
+      if (err) throw err;
+      console.log(JSON.stringify(data));
+      // res.send(JSON.stringify(data));
+    });
+  });
+});
+
+router.post("/selectCustom", async (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+
+    var qry =
+      "SELECT " +
+      req.body.columnName +
+      " FROM " +
+      req.body.tableName +
+      " " +
+      req.body.freeForm;
+
+    console.log(req.body);
+    conn.query(qry, (err, data) => {
+      if (err) throw err;
+      conn.release();
       console.log(JSON.stringify(data));
       // res.send(JSON.stringify(data));
     });

@@ -21,6 +21,10 @@ SELECT Name, Ticker, Number_of_shares
 FROM Corporation NATURAL LEFT JOIN Share_Holders NATURAL LEFT JOIN Portfolio
 WHERE Corporation.SHid = Share_Holders.SHid AND Ticker IS NOT NULL;
 
+SELECT SHid, Ticker, Number_of_shares
+FROM Corporation NATURAL LEFT JOIN Portfolio
+WHERE Ticker IS NOT NULL;
+
 -- Assuring check condition works
 #INSERT INTO Portfolio 
 #VALUES (2, -141.32, 10, '2022-10-07', 'AAPL');
