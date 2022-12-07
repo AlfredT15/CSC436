@@ -22,6 +22,33 @@ router.get("/ddl", async (req, res) => {
   });
 });
 
+router.post("/insertTable", async (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+
+    const qry =
+      "CREATE TABLE " + req.body.tableName + " ( " + req.body.tableInfo + " );";
+    console.log(req.body);
+    conn.query(qry, (err, data) => {
+      if (err) throw err;
+      console.log("sent");
+    });
+  });
+});
+
+router.post("/dropTable", async (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+
+    const qry = "DROP TABLE " + req.body.tableName + ";";
+    console.log(req.body);
+    conn.query(qry, (err, data) => {
+      if (err) throw err;
+      console.log("sent");
+    });
+  });
+});
+
 // router.get("/dml", async (req, res) => {
 //   const userTweet = req.body.tweetInput;
 
