@@ -29,6 +29,9 @@ function Nav() {
           <Link to="/dql" className="nav-item nav-link">
             DQL Queries
           </Link>
+          <Link to="/dcl" className="nav-item nav-link">
+            DCL Queries
+          </Link>
           <Link to="/cq" className="nav-item nav-link">
             Cool Queries
           </Link>

@@ -309,4 +309,44 @@ router.post("/selectCustom", async (req, res) => {
   });
 });
 
+// <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+// DCL Queries
+// <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+
+router.post("/grant", async (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+
+    const qry =
+      "GRANT " +
+      req.body.privilege +
+      " ON " +
+      req.body.object +
+      " TO " +
+      req.body.user;
+    console.log(req.body);
+    conn.query(qry, (err, data) => {
+      if (err) throw err;
+    });
+  });
+});
+
+router.post("/revoke", async (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+
+    const qry =
+      "REVOKE " +
+      req.body.privilege +
+      " ON " +
+      req.body.object +
+      " FROM " +
+      req.body.user;
+    console.log(req.body);
+    conn.query(qry, (err, data) => {
+      if (err) throw err;
+    });
+  });
+});
+
 module.exports = router;
