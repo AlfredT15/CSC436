@@ -20,6 +20,15 @@ function Nav() {
           <Link to="/" className="nav-item nav-link active">
             Home
           </Link>
+          <Link to="/corporations" className="nav-item nav-link">
+            Corporation Queries
+          </Link>
+          <Link to="/portfolio" className="nav-item nav-link">
+            Portfolio Queries
+          </Link>
+          <Link to="/shareholder" className="nav-item nav-link">
+            ShareHolder Queries
+          </Link>
           <Link to="/ddl" className="nav-item nav-link">
             DDL Queries
           </Link>

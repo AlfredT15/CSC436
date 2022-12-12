@@ -7,6 +7,9 @@ import DML from "./components/DML";
 import DQL from "./components/DQL";
 import CQ from "./components/CoolQueries";
 import DCL from "./components/DCL";
+import Corporation from "./components/Corporations";
+import Portfolio from "./components/Portfolio";
+import Shareholder from "./components/Shareholder";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
@@ -16,6 +19,9 @@ function App() {
         <Nav />
         <Switch>
           <Route path="/" exact component={Home} />
+          <Route path="/corporations" exact component={Corporation} />
+          <Route path="/portfolio" exact component={Portfolio} />
+          <Route path="/shareholder" exact component={Shareholder} />
           <Route path="/ddl" exact component={DDL} />
           <Route path="/dml" exact component={DML} />
           <Route path="/dql" exact component={DQL} />
