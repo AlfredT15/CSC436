@@ -23,6 +23,7 @@ SHid, Price_per_share, Number_of_shares, Date_Acquired, Ticker
 9, 96.43, 20,2022-09-30,CVS
 10, 64.24, 50,2022-10-25,BBY
 10, 118, 60,2022-10-07,AMZN
+12, 118, 60,2022-10-07,AMZN
 
 
 

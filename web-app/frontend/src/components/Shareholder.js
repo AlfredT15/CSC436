@@ -68,7 +68,7 @@ function Shareholder() {
             placeholder="Share Holder Name"
           />
           <button onClick={removeFromSH} className="btn btn-primary mb-2">
-            Add
+            Remove
           </button>
         </div>
       </div>

@@ -56,7 +56,7 @@ FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-SELECT * FROM Tracked_by;
+-- SELECT * FROM Tracked_by;
 
 LOAD DATA LOCAL INFILE '/home/alfred/Code/School/CSC436/CSC436/data/Owned_by.csv'
 INTO TABLE Owned_by
@@ -64,6 +64,6 @@ FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-SELECT * FROM Owned_by;
+-- SELECT * FROM Owned_by;
 
 

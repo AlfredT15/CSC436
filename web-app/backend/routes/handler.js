@@ -11,7 +11,7 @@ router.get("/cq", async (req, res) => {
     if (err) throw err;
 
     try {
-      const qry = `SELECT Name, Ticker, Number_of_shares
+      const qry = `SELECT SHName as Name, Ticker, Number_of_shares
             FROM Corporation NATURAL LEFT JOIN Share_Holders NATURAL LEFT JOIN Portfolio
             WHERE Corporation.SHid = Share_Holders.SHid AND Ticker IS NOT NULL`;
       conn.query(qry, (err, result) => {

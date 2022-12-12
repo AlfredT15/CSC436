@@ -1,5 +1,11 @@
 SELECT * FROM Share_Holders;
 
+create table temp (id int);
+
+drop table temp2;
+
+select * from temp;
+
 -- A stock holder buying a new stock
 INSERT INTO Portfolio 
 VALUES (2, 141.32, 10, '2022-10-07', 'AAPL');
@@ -18,6 +24,8 @@ SET Number_of_shares = 5
 WHERE SHid = 1 AND Ticker = 'ADBE' AND Date_Acquired = '2022-10-13';
 
 SELECT * FROM Portfolio;
+
+SELECT * FROM Corporation;
 
 -- Get all stocks from an S&P index
 SELECT DISTINCT Ticker, Index_Name from Public_Stock NATURAL LEFT JOIN Stock_Index

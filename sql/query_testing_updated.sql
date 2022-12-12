@@ -5,6 +5,13 @@ VALUES (2, 141.32, 10, '2022-10-07', 'AAPL');
 SELECT *
 FROM Portfolio;
 
+INSERT INTO Portfolio (SHid, Price_per_share, Number_of_shares, Date_acquired, Ticker) 
+VALUES ((SELECT SHid FROM Share_Holders WHERE SHName = 'Google'),120.20, 10, '2022-10-07', 'TSLA');
+
+revoke insert on Portfolio from temp;
+
+SHOW GRANTS FOR 'temp'@'%';
+
 -- Removing the stock from a share holder
 DELETE FROM Portfolio
 WHERE SHid = 2 AND Ticker = 'AAPL';
@@ -14,16 +21,20 @@ UPDATE Portfolio
 SET Number_of_shares = 5
 WHERE SHid = 1 AND Ticker = 'ADBE' AND Date_Acquired = '2022-10-13';
 
-SELECT * FROM Portfolio;
+SELECT * FROM Share_Holders;
 
 -- See what corporations are investing in
-SELECT Name, Ticker, Number_of_shares
-FROM Corporation NATURAL LEFT JOIN Share_Holders NATURAL LEFT JOIN Portfolio
-WHERE Corporation.SHid = Share_Holders.SHid AND Ticker IS NOT NULL;
+SELECT SHName as Name, Ticker, Number_of_shares
+FROM Share_Holders NATURAL LEFT JOIN Portfolio
+WHERE Ticker IS NOT NULL AND SHId NOT IN (SELECT SHid FROM Corporation);
 
-SELECT SHid, Ticker, Number_of_shares
-FROM Corporation NATURAL LEFT JOIN Portfolio
-WHERE Ticker IS NOT NULL;
+select * from Share_Holders;
+
+ALTER TABLE Share_Holders RENAME COLUMN Name TO SHName;
+
+insert into Corporation Values(LAST_INSERT_ID());
+
+select * from Corporation;
 
 -- Assuring check condition works
 #INSERT INTO Portfolio 
@@ -41,6 +52,19 @@ ON t.Index_ID = si.Index_ID;
 SELECT Ticker, AVG(Price_per_share) as Average_purchase_price
 FROM Portfolio
 GROUP BY Ticker
+ORDER BY Average_purchase_price DESC;
+
+-- Getting the average purchase price of all stocks in specific portfolio
+SELECT Ticker, SHName as Name,  AVG(Price_per_share) as Average_purchase_price
+FROM  Share_Holders NATURAL JOIN Portfolio
+WHERE SHName = "Bank of America"
+GROUP BY Ticker, SHName
+ORDER BY Average_purchase_price DESC;
+
+SELECT  SHName as Name, Ticker, Number_of_shares as Quantity, Price_per_share as Price, Date_Acquired as Date
+FROM  Share_Holders NATURAL JOIN Portfolio
+WHERE SHName = "Bank of America"
+GROUP BY Ticker, SHName
 ORDER BY Average_purchase_price DESC;
 
 -- Getting the name of every shareholder, the company they are invested in, and what industry that company is in
@@ -65,6 +89,7 @@ NATURAL JOIN (SELECT DISTINCT Ticker, Exchange_Name
 FROM Public_Stock
 LEFT JOIN Stock_Exchange
 USING (Exchange_ID)) as sub
+WHERE Exchange_Name = 'NASDAQ'
 GROUP BY Exchange_Name;
 
 #Find transactions done by shareholders in certain month
