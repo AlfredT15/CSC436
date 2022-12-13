@@ -48,7 +48,8 @@ CREATE TABLE Portfolio
   Price_per_share NUMERIC(9,2) NOT NULL,
   Number_of_shares NUMERIC(15) NOT NULL,
   Date_Acquired DATE NOT NULL,
-  Ticker CHAR(5), 
+  Ticker CHAR(5),
+  CONSTRAINT CHK_Portfolio CHECK (Price_per_share > 0 AND Number_of_shares > 0),
   FOREIGN KEY (SHid) REFERENCES Share_Holders(SHid) ON DELETE CASCADE
 );
 
@@ -62,6 +63,7 @@ CREATE TABLE Public_Stock
   Exchange_ID INT NOT NULL,
   Sector_ID INT NOT NULL,
   Corporation_ID INT NOT NULL,
+  CONSTRAINT CHK_Public_Stock CHECK (Open_Price > 0 AND Close_Price > 0 AND Volume > 0),
   PRIMARY KEY(Ticker, Stock_date),
   FOREIGN KEY (Exchange_ID) REFERENCES Stock_Exchange(Exchange_ID) ON DELETE CASCADE,
   FOREIGN KEY (Sector_ID) REFERENCES Sector(Sector_ID) ON DELETE CASCADE,
