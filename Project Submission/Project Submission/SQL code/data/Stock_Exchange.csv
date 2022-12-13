@@ -1,0 +1,7 @@
+Exchange_Id,Country,Currency,Exchange_Name
+1,USA,USD,NYSE
+2,USA,USD,NASDAQ
+3,Japan,USD,TSE
+4,United Kingdom,USD,LSE
+5,China,CNY,Hong Kong Stock Exchange
+6,China,CNY,Shanghai Stock Exchange
